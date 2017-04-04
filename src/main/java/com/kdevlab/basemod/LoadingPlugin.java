@@ -12,7 +12,6 @@ import java.util.Map;
  * Created by kirill (KDevLab) on 03.04.17.
  */
 @IFMLLoadingPlugin.TransformerExclusions ({ "com.kdevlab." })
-@IFMLLoadingPlugin.SortingIndex (1001)
 @IFMLLoadingPlugin.Name ("KDevLab Loading Plugin")
 public class LoadingPlugin implements IFMLLoadingPlugin {
 
