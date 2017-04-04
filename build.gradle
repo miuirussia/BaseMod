@@ -1,0 +1,69 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "0.1-alpha1"
+group = "com.kdevlab"
+archivesBaseName = "BaseMod"
+
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+repositories {
+    maven {
+        name = "ChickenBones Maven"
+        url = "http://chickenbones.net/maven/"
+    }
+    maven {
+        name = "Covers Maven"
+        url = "http://maven.covers1624.net"
+    }
+    maven {
+        name = "JEI Maven"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
+minecraft {
+    version = "1.10.2-12.18.3.2254"
+    runDir = "run"
+    mappings = "snapshot_20161111"
+    replace "@VERSION@", project.version
+}
+
+dependencies {
+    compile "codechicken:CodeChickenLib:1.10.2-2.5.7.242:deobf"
+    compile "codechicken:CodeChickenCore:1.10.2-2.4.1.103:deobf"
+
+}
+
+jar {
+    manifest {
+        attributes 'FMLCorePlugin': 'com.kdevlab.basemod.LoadingPlugin'
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    }
+}
+
+processResources
+{
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}

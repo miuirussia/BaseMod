@@ -1,0 +1,16 @@
+[
+{
+  "modid": "basemod",
+  "name": "BaseMod",
+  "description": "Minecraft fixes by KDevLab",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/miuirussia/BaseMod",
+  "updateUrl": "",
+  "authorList": ["KDevLab"],
+  "credits": "KDevLab",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
