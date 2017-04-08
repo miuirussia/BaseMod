@@ -35,6 +35,13 @@ public class ClassTransformer implements IClassTransformer {
         Map<String, ASMBlock> blocks = ASMReader.loadResource("/assets/kdevlab/patch.asm");
         ObfMapping mapping = new ObfMapping("net/minecraft/client/gui/inventory/GuiContainerCreative", "func_73866_w_", "()V");
         transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_initGui"), blocks.get("i_initGui")));
+
+        mapping = new ObfMapping("net/minecraftforge/fml/client/GuiModList", "initGui", "()V");
+        transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_ModConfig"), blocks.get("i_ModConfig")));
+        transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_ModDisable"), blocks.get("i_ModDisable")));
+
+        mapping = new ObfMapping("net/minecraftforge/fml/client/GuiModList", "drawScreen", "(IIF)V");
+        transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_ModList"), blocks.get("i_ModList")));
     }
 
 }
