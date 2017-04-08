@@ -1,7 +1,7 @@
 package com.kdevlab.basemod.asm;
 
 import codechicken.lib.asm.ASMBlock;
-import codechicken.lib.asm.ASMReader;
+import com.kdevlab.repack.codechicken.lib.asm.asm.ASMReader;
 import codechicken.lib.asm.ModularASMTransformer;
 import codechicken.lib.asm.ObfMapping;
 import net.minecraft.launchwrapper.IClassTransformer;
@@ -28,6 +28,9 @@ public class ClassTransformer implements IClassTransformer {
 
         bytes = transformer.transform(name, bytes);
 
+        /*if (transformedName.equals("net.minecraftforge.fml.client.GuiModList"))
+            return TranslationFix.patch(bytes);*/
+
         return bytes;
     }
 
@@ -36,12 +39,9 @@ public class ClassTransformer implements IClassTransformer {
         ObfMapping mapping = new ObfMapping("net/minecraft/client/gui/inventory/GuiContainerCreative", "func_73866_w_", "()V");
         transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_initGui"), blocks.get("i_initGui")));
 
-        mapping = new ObfMapping("net/minecraftforge/fml/client/GuiModList", "initGui", "()V");
+        mapping = new ObfMapping("net/minecraftforge/fml/client/GuiModList", "func_73866_w_", "()V");
         transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_ModConfig"), blocks.get("i_ModConfig")));
         transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_ModDisable"), blocks.get("i_ModDisable")));
-
-        mapping = new ObfMapping("net/minecraftforge/fml/client/GuiModList", "drawScreen", "(IIF)V");
-        transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_ModList"), blocks.get("i_ModList")));
     }
 
 }
