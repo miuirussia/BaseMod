@@ -18,15 +18,12 @@ public class TranslationFix {
         ClassNode cNode = new ClassNode();
         new ClassReader(basicClass).accept(cNode, 0);
 
-        ObfMapping initGui = new ObfMapping("net/minecraftforge/fml/client/GuiModList", "func_73866_w_", "()V");
-        ObfMapping drawScreen = new ObfMapping("net/minecraftforge/fml/client/GuiModList", "func_73863_a", "(IIF)V");
-
         for (MethodNode mNode : cNode.methods) {
-            if (mNode.name.equals(initGui.s_name) && mNode.desc.equals(initGui.s_desc)) {
+            if (mNode.name.equals("b") && mNode.desc.equals("()V")) { // initGui
                 replaceToTranslatedString(mNode, "Config", "fml.gui.mod_config");
                 replaceToTranslatedString(mNode, "Disable", "fml.gui.mod_disable");
             }
-            if (mNode.name.equals(drawScreen.s_name) && mNode.desc.equals(drawScreen.s_desc)) {
+            if (mNode.name.equals("a") && mNode.desc.equals("(IIF)V")) { // drawScreen
                 replaceToTranslatedString(mNode, "Mod List", "fml.gui.mod_list");
             }
         }
@@ -43,11 +40,11 @@ public class TranslationFix {
             AbstractInsnNode insn = iterator.next();
             Object cst = insn instanceof LdcInsnNode ? ((LdcInsnNode) insn).cst : null;
             if (cst != null && cst.equals(from)) {
-                ObfMapping I18nFormat = new ObfMapping("net/minecraft/client/resources/I18n", "func_135052_a", "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;");
                 iterator.set(new LdcInsnNode(to));
                 iterator.add(new InsnNode(ICONST_0));
                 iterator.add(new TypeInsnNode(ANEWARRAY, "java/lang/Object"));
-                iterator.add(new MethodInsnNode(INVOKESTATIC, I18nFormat.s_owner, I18nFormat.s_name, I18nFormat.s_desc, false));
+                // I18n.format
+                iterator.add(new MethodInsnNode(INVOKESTATIC, "bxl", "a", "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;", false));
             }
         }
     }
