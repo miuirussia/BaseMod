@@ -9,7 +9,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "0.1-alpha1"
+version = "0.1-alpha2"
 group = "com.kdevlab"
 archivesBaseName = "BaseMod"
 
