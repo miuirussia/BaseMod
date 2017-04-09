@@ -26,10 +26,14 @@ public class ClassTransformer implements IClassTransformer {
             return null;
         }
 
-        bytes = transformer.transform(name, bytes);
+        try {
+            bytes = transformer.transform(name, bytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        /*if (transformedName.equals("net.minecraftforge.fml.client.GuiModList"))
-            return TranslationFix.patch(bytes);*/
+        if (transformedName.equals("net.minecraftforge.fml.client.GuiModList"))
+            return TranslationFix.patchGuiModList(bytes);
 
         return bytes;
     }
@@ -38,10 +42,6 @@ public class ClassTransformer implements IClassTransformer {
         Map<String, ASMBlock> blocks = ASMReader.loadResource("/assets/kdevlab/patch.asm");
         ObfMapping mapping = new ObfMapping("net/minecraft/client/gui/inventory/GuiContainerCreative", "func_73866_w_", "()V");
         transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_initGui"), blocks.get("i_initGui")));
-
-        mapping = new ObfMapping("net/minecraftforge/fml/client/GuiModList", "func_73866_w_", "()V");
-        transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_ModConfig"), blocks.get("i_ModConfig")));
-        transformer.add(new ModularASMTransformer.MethodReplacer(mapping, blocks.get("n_ModDisable"), blocks.get("i_ModDisable")));
     }
 
 }
